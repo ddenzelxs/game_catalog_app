@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'features/games/pages/home_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await dotenv.load(fileName: ".env");
+
   await Hive.initFlutter();
 
-  runApp(
-    const ProviderScope(
-      child: GameCatalogApp(),
-    ),
-  );
+  // await Hive.openBox('wishlist');
+  // await Hive.openBox('ratings');
+
+  runApp(const ProviderScope(child: GameCatalogApp()));
 }
 
 class GameCatalogApp extends StatelessWidget {
@@ -23,14 +26,7 @@ class GameCatalogApp extends StatelessWidget {
       title: 'Game Catalog App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: const Scaffold(
-        body: Center(
-          child: Text(
-            'Game Catalog App',
-            style: TextStyle(fontSize: 24),
-          ),
-        ),
-      ),
+      home: const HomeScreen(),
     );
   }
 }

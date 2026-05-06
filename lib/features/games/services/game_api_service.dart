@@ -9,7 +9,7 @@ class GameApiService {
       '${ApiConstants.baseUrl}/games?key=${ApiConstants.apiKey}&page=$page',
     );
 
-    final response = await http.get(url);
+    final response = await http.get(url);  
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
