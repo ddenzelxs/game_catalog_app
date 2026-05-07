@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/game_provider.dart';
 import '../widgets/game_card.dart';
+import '../widgets/game_card_shimmer.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -58,7 +59,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
               Expanded(
                 child: state.isLoading
-                    ? const Center(child: CircularProgressIndicator())
+                    ? GridView.builder(
+                        padding: const EdgeInsets.all(12),
+                        itemCount: 6,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.7,
+                              mainAxisSpacing: 12,
+                              crossAxisSpacing: 12,
+                            ),
+                        itemBuilder: (context, index) {
+                          return const GameCardShimmer();
+                        },
+                      )
                     : GridView.builder(
                         controller: _scrollController,
                         padding: const EdgeInsets.all(12),
