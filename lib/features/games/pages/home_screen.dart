@@ -50,9 +50,111 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             children: [
               Container(
                 padding: const EdgeInsets.all(16),
-                child: const Text(
-                  "Welcome to ArcadiaX!",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "ArcadiaX",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(59, 59, 59, 1),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.search,
+                              color: Color.fromRGBO(200, 200, 200, 1),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: TextField(
+                                // controller: searchController,
+                                // onChanged: searchProducts,
+                                decoration: InputDecoration(
+                                  hintText: "Search",
+                                  hintStyle: TextStyle(
+                                    color: Color.fromRGBO(200, 200, 200, 1),
+                                    fontSize: 14,
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 20),
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => SignUpScreen(),
+                        //   ),
+                        // );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(59, 59, 59, 1),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const Text(
+                          "LOG IN",
+                          style: TextStyle(
+                            color: Color.fromRGBO(200, 200, 200, 1),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 15),
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => SignUpScreen(),
+                        //   ),
+                        // );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(59, 59, 59, 1),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const Text(
+                          "SIGN IN",
+                          style: TextStyle(
+                            color: Color.fromRGBO(200, 200, 200, 1),
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
 
@@ -61,11 +163,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   builder: (context, constraints) {
                     late int crossAxisCount;
 
-                    // HP
                     if (constraints.maxWidth < 600) {
                       crossAxisCount = 1;
                     }
-                    // TABLET / WEB / DESKTOP
                     else {
                       const itemWidth = 180;
 
@@ -77,10 +177,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     if (state.isLoading) {
                       return GridView.builder(
                         padding: const EdgeInsets.all(12),
-                        itemCount: 6,
+                        itemCount: crossAxisCount * 2,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: crossAxisCount,
-                          childAspectRatio: 0.7,
+                          childAspectRatio: 1,
                           mainAxisSpacing: 12,
                           crossAxisSpacing: 12,
                         ),
@@ -93,8 +193,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     return GridView.builder(
                       controller: _scrollController,
                       padding: const EdgeInsets.all(12),
-                      itemCount:
-                          state.games.length + (state.isLoadingMore ? 1 : 0),
+                      itemCount: state.hasMore ? state.games.length + crossAxisCount : state.games.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: crossAxisCount,
                         childAspectRatio: 1,

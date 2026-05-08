@@ -7,17 +7,16 @@ class GameCardShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[850]!,
-      highlightColor: Colors.grey[700]!,
+      baseColor: const Color(0xFF1E1E1E),
+      highlightColor: const Color(0xFF2A2A2A),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.grey[900],
+          color: const Color(0xFF252525),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 🔹 Fake image
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
@@ -29,14 +28,16 @@ class GameCardShimmer extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
 
-            // 🔹 Fake title
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 8),
-              height: 14,
+              height: 16,
               width: double.infinity,
-              color: Colors.black,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
 
             const SizedBox(height: 8),
@@ -45,10 +46,13 @@ class GameCardShimmer extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 8),
               height: 14,
               width: 80,
-              color: Colors.black,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: 8),
           ],
         ),
       ),
