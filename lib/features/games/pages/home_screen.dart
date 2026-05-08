@@ -41,7 +41,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final state = ref.watch(gameProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("ArcadiaX")),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
@@ -58,45 +57,64 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
 
               Expanded(
-                child: state.isLoading
-                    ? GridView.builder(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    late int crossAxisCount;
+
+                    // HP
+                    if (constraints.maxWidth < 600) {
+                      crossAxisCount = 1;
+                    }
+                    // TABLET / WEB / DESKTOP
+                    else {
+                      const itemWidth = 180;
+
+                      crossAxisCount = (constraints.maxWidth / itemWidth)
+                          .floor()
+                          .clamp(2, 6);
+                    }
+
+                    if (state.isLoading) {
+                      return GridView.builder(
                         padding: const EdgeInsets.all(12),
                         itemCount: 6,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.7,
-                              mainAxisSpacing: 12,
-                              crossAxisSpacing: 12,
-                            ),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: crossAxisCount,
+                          childAspectRatio: 0.7,
+                          mainAxisSpacing: 12,
+                          crossAxisSpacing: 12,
+                        ),
                         itemBuilder: (context, index) {
                           return const GameCardShimmer();
                         },
-                      )
-                    : GridView.builder(
-                        controller: _scrollController,
-                        padding: const EdgeInsets.all(12),
-                        itemCount:
-                            state.games.length + (state.isLoadingMore ? 1 : 0),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.7,
-                              mainAxisSpacing: 12,
-                              crossAxisSpacing: 12,
-                            ),
-                        itemBuilder: (context, index) {
-                          if (index >= state.games.length) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
+                      );
+                    }
 
-                          final game = state.games[index];
-
-                          return GameCard(game: game);
-                        },
+                    return GridView.builder(
+                      controller: _scrollController,
+                      padding: const EdgeInsets.all(12),
+                      itemCount:
+                          state.games.length + (state.isLoadingMore ? 1 : 0),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: crossAxisCount,
+                        childAspectRatio: 1,
+                        mainAxisSpacing: 12,
+                        crossAxisSpacing: 12,
                       ),
+                      itemBuilder: (context, index) {
+                        if (index >= state.games.length) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        final game = state.games[index];
+
+                        return GameCard(game: game);
+                      },
+                    );
+                  },
+                ),
               ),
             ],
           ),
