@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../models/game_model.dart';
 import '../../../core/utils/image_utils.dart';
+import '../pages/detail_screen.dart';
 
 class GameCard extends StatelessWidget {
   final Game game;
@@ -12,12 +13,12 @@ class GameCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => DetailScreen(game: game),
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DetailScreen(gameId: game.id),
+          ),
+        );
       },
       child: Container(
         decoration: BoxDecoration(

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../../core/api/api_constants.dart';
 import '../models/game_model.dart';
+import '../models/game_detail_model.dart';
 
 class GameApiService {
   Future<List<Game>> fetchGames({int page = 1}) async {
@@ -9,7 +10,7 @@ class GameApiService {
       '${ApiConstants.baseUrl}/games?key=${ApiConstants.apiKey}&page=$page',
     );
 
-    final response = await http.get(url);  
+    final response = await http.get(url);
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -18,6 +19,22 @@ class GameApiService {
       return results.map((e) => Game.fromJson(e)).toList();
     } else {
       throw Exception('Failed to load games');
+    }
+  }
+
+  Future<GameDetail> fetchGameDetail(int id) async {
+    final url = Uri.parse(
+      '${ApiConstants.baseUrl}/games/$id?key=${ApiConstants.apiKey}',
+    );
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+
+      return GameDetail.fromJson(data);
+    } else {
+      throw Exception('Failed to load game detail');
     }
   }
 }
