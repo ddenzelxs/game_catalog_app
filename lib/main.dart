@@ -20,6 +20,12 @@ void main() async {
   // await Hive.openBox('wishlist');
   // await Hive.openBox('ratings');
 
+  final supabase = Supabase.instance.client;
+
+  final response = await supabase.rpc('get_tables');
+
+  print(response);
+
   runApp(const ProviderScope(child: GameCatalogApp()));
 }
 
