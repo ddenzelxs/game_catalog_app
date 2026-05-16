@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../providers/auth_provider.dart';
 import 'login_screen.dart';
 
@@ -95,7 +95,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 600.ms)
+                      .slideY(begin: -0.2, duration: 600.ms),
                   const SizedBox(height: 8),
                   const Text(
                     'Join us to explore amazing games',
@@ -103,7 +106,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       fontSize: 14,
                       color: Color.fromRGBO(200, 200, 200, 1),
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 700.ms, delay: 100.ms)
+                      .slideY(begin: -0.2, duration: 700.ms, delay: 100.ms),
                   const SizedBox(height: 30),
 
                   if (authState.error != null)
@@ -122,7 +128,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           fontSize: 12,
                         ),
                       ),
-                    ),
+                    )
+                        .animate()
+                        .fadeIn(duration: 400.ms)
+                        .scale(begin: const Offset(0.95, 0.95)),
 
                   const Text(
                     'Email',
@@ -130,7 +139,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 200.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 200.ms),
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _emailController,
@@ -162,7 +174,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       }
                       return null;
                     },
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 200.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 200.ms),
                   const SizedBox(height: 20),
 
                   const Text(
@@ -171,7 +186,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 250.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 250.ms),
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _usernameController,
@@ -202,7 +220,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       }
                       return null;
                     },
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 250.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 250.ms),
                   const SizedBox(height: 20),
 
                   const Text(
@@ -211,7 +232,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 300.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 300.ms),
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _passwordController,
@@ -256,7 +280,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       }
                       return null;
                     },
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 300.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 300.ms),
                   const SizedBox(height: 20),
 
                   const Text(
@@ -265,7 +292,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 350.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 350.ms),
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _confirmPasswordController,
@@ -310,7 +340,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       }
                       return null;
                     },
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 350.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 350.ms),
                   const SizedBox(height: 30),
 
                   SizedBox(
@@ -345,35 +378,43 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               ),
                             ),
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 400.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 400.ms)
+                      .scale(delay: 400.ms),
                   const SizedBox(height: 20),
 
                   Center(
-                    child: RichText(
-                      text: TextSpan(
-                        text: "Already have an account? ",
-                        style: const TextStyle(
-                          color: Color.fromRGBO(200, 200, 200, 1),
+                    child: GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
                         ),
-                        children: [
-                          TextSpan(
-                            text: 'Log In',
-                            style: TextStyle(
-                              color: Colors.blue[400],
-                              fontWeight: FontWeight.bold,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginScreen(),
-                                ),
-                              ),
+                      ),
+                      child: RichText(
+                        text: TextSpan(
+                          text: "Already have an account? ",
+                          style: const TextStyle(
+                            color: Color.fromRGBO(200, 200, 200, 1),
                           ),
-                        ],
+                          children: [
+                            TextSpan(
+                              text: 'Log In',
+                              style: TextStyle(
+                                color: Colors.blue[400],
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 450.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 450.ms),
                 ],
               ),
             ),

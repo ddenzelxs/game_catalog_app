@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../providers/auth_provider.dart';
 import 'register_screen.dart';
 
@@ -88,7 +89,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 600.ms)
+                      .slideY(begin: -0.2, duration: 600.ms),
                   const SizedBox(height: 8),
                   const Text(
                     'Log in to your ArcadiaX account',
@@ -96,7 +100,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       fontSize: 14,
                       color: Color.fromRGBO(200, 200, 200, 1),
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 700.ms, delay: 100.ms)
+                      .slideY(begin: -0.2, duration: 700.ms, delay: 100.ms),
                   const SizedBox(height: 40),
 
                   // Error message
@@ -116,7 +123,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           fontSize: 12,
                         ),
                       ),
-                    ),
+                    )
+                        .animate()
+                        .fadeIn(duration: 400.ms)
+                        .scale(begin: const Offset(0.95, 0.95)),
 
                   // Email Field
                   const Text(
@@ -125,7 +135,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 200.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 200.ms),
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _emailController,
@@ -157,7 +170,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       }
                       return null;
                     },
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 200.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 200.ms),
                   const SizedBox(height: 20),
 
                   // Password Field
@@ -167,7 +183,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 300.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 300.ms),
                   const SizedBox(height: 8),
                   TextFormField(
                     controller: _passwordController,
@@ -212,7 +231,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       }
                       return null;
                     },
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 300.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 300.ms),
                   const SizedBox(height: 12),
 
                   // Forgot Password Link
@@ -235,7 +257,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ),
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 350.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 350.ms),
                   const SizedBox(height: 30),
 
                   // Login Button
@@ -272,7 +297,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               ),
                             ),
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 400.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 400.ms)
+                      .scale(delay: 400.ms),
                   const SizedBox(height: 20),
 
                   // Sign Up Link
@@ -304,7 +333,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ),
                     ),
-                  ),
+                  )
+                      .animate()
+                      .fadeIn(duration: 800.ms, delay: 450.ms)
+                      .slideY(begin: 0.2, duration: 800.ms, delay: 450.ms),
                 ],
               ),
             ),
