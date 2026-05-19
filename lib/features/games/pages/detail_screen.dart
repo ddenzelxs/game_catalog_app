@@ -20,7 +20,6 @@ class DetailScreen extends ConsumerWidget {
         data: (game) {
           return Stack(
             children: [
-              // Background Image with Dark Overlay
               Container(
                 color: const Color.fromRGBO(30, 30, 30, 1),
               ),
@@ -31,13 +30,11 @@ class DetailScreen extends ConsumerWidget {
                   opacity: const AlwaysStoppedAnimation(0.3),
                 ),
               ),
-              // Dark Overlay
               Positioned.fill(
                 child: Container(
                   color: const Color.fromRGBO(0, 0, 0, 0.5),
                 ),
               ),
-              // Content
               CustomScrollView(
                 slivers: [
                   SliverAppBar(
