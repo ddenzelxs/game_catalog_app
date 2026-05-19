@@ -10,30 +10,44 @@ class CustomBottomNavbar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(bottomNavProvider);
 
-    return BottomNavigationBar(
-      currentIndex: currentIndex,
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF1E1E1E),
+        border: Border(top: BorderSide(color: Colors.white.withOpacity(0.05))),
+      ),
+      child: BottomNavigationBar(
+        currentIndex: currentIndex,
 
-      onTap: (index) {
-        ref.read(bottomNavProvider.notifier).state =
-            index;
-      },
+        onTap: (index) {
+          ref.read(bottomNavProvider.notifier).state = index;
+        },
 
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: "Home",
-        ),
+        backgroundColor: Colors.transparent,
 
-        BottomNavigationBarItem(
-          icon: Icon(Icons.favorite),
-          label: "Wishlist",
-        ),
+        elevation: 0,
 
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: "Profile",
-        ),
-      ],
+        type: BottomNavigationBarType.fixed,
+
+        selectedItemColor: const Color(0xFF9B5CFF),
+
+        unselectedItemColor: Colors.grey,
+
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: "Wishlist",
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: "Cart",
+          ),
+
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+        ],
+      ),
     );
   }
 }

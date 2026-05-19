@@ -80,7 +80,7 @@ class DetailScreen extends ConsumerWidget {
                                       onTap: () => Navigator.pop(context),
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          color: Colors.black.withOpacity(0.5),
+                                          color: Colors.black.withAlpha(128),
                                           shape: BoxShape.circle,
                                         ),
                                         padding: const EdgeInsets.all(8),
@@ -109,7 +109,7 @@ class DetailScreen extends ConsumerWidget {
                             child: Center(
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.3),
+                                  color: Colors.black.withAlpha(77),
                                   shape: BoxShape.circle,
                                 ),
                                 padding: const EdgeInsets.all(12),
@@ -159,7 +159,7 @@ class DetailScreen extends ConsumerWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            game.description ?? 'No description available',
+                            game.description,
                             style: const TextStyle(
                               fontSize: 14,
                               color: Color.fromRGBO(200, 200, 200, 1),

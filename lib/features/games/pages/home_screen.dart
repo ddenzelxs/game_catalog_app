@@ -3,6 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/game_provider.dart';
 import '../widgets/game_card.dart';
 import '../widgets/game_card_shimmer.dart';
+import '../../auth/pages/login_screen.dart';
+import '../../auth/pages/register_screen.dart';
+import '../../auth/providers/auth_provider.dart';
+
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
@@ -38,6 +42,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(gameProvider);
+    final currentUser = ref.watch(currentUserProvider);
+    final userProfile = ref.watch(userProfileProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -91,6 +97,287 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         ),
                       ),
                     ),
+                    // ======= Auth =====
+                    const SizedBox(width: 20),
+                    // Conditional Navigation
+                    currentUser.when(
+                      data: (user) {
+                        if (user != null) {
+                          // User is logged in
+                          return userProfile.when(
+                            data: (profile) {
+                              final username = profile?['username'] ?? 'User';
+                              return Row(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 15,
+                                      vertical: 10,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(59, 59, 59, 1),
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: Text(
+                                      username,
+                                      style: const TextStyle(
+                                        color: Color.fromRGBO(200, 200, 200, 1),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 15),
+                                  GestureDetector(
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          backgroundColor: Color.fromRGBO(
+                                            40,
+                                            40,
+                                            40,
+                                            1,
+                                          ),
+                                          title: const Text(
+                                            'Log Out',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          content: const Text(
+                                            'Are you sure you want to log out?',
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                200,
+                                                200,
+                                                200,
+                                                1,
+                                              ),
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: const Text('Cancel'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () async {
+                                                Navigator.pop(context);
+                                                await ref
+                                                    .read(authProvider.notifier)
+                                                    .logout();
+                                              },
+                                              child: const Text(
+                                                'Log Out',
+                                                style: TextStyle(
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                        vertical: 10,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Color.fromRGBO(59, 59, 59, 1),
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      child: const Icon(
+                                        Icons.logout,
+                                        color: Color.fromRGBO(200, 200, 200, 1),
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                            loading: () => Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(59, 59, 59, 1),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                            ),
+                            error: (error, stack) => Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(59, 59, 59, 1),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: const Text(
+                                'User',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(200, 200, 200, 1),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          );
+                        } else {
+                          return Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const LoginScreen(),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                    vertical: 10,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(59, 59, 59, 1),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: const Text(
+                                    "LOG IN",
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(200, 200, 200, 1),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 15),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RegisterScreen(),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 15,
+                                    vertical: 10,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(59, 59, 59, 1),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: const Text(
+                                    "Register",
+                                    style: TextStyle(
+                                      color: Color.fromRGBO(200, 200, 200, 1),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                      loading: () => Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(59, 59, 59, 1),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                      ),
+                      error: (error, stack) => Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginScreen(),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(59, 59, 59, 1),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: const Text(
+                                "LOG IN",
+                                style: TextStyle(
+                                  color: Color.fromRGBO(200, 200, 200, 1),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 15),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RegisterScreen(),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Color.fromRGBO(59, 59, 59, 1),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: const Text(
+                                "Register",
+                                style: TextStyle(
+                                  color: Color.fromRGBO(200, 200, 200, 1),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // ======= Auth =====
                   ],
                 ),
               ),
