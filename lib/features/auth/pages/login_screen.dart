@@ -26,7 +26,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   void _handleLogin() async {
     if (_formKey.currentState!.validate()) {
-      final success = await ref.read(authProvider.notifier).login(
+      final success = await ref
+          .read(authProvider.notifier)
+          .login(
             email: _emailController.text.trim(),
             password: _passwordController.text,
           );
@@ -66,10 +68,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ),
         title: const Text(
           'Login',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
       body: SafeArea(
@@ -82,95 +81,118 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Title
-                  const Text(
-                    'Welcome Back',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  Center(
+                    child: Column(
+                      children: [
+                        Icon(
+                              Icons.gamepad_outlined,
+                              size: 80,
+                              color: Colors.blueAccent,
+                            )
+                            .animate()
+                            .fadeIn(duration: 600.ms)
+                            .slideY(begin: -0.2, duration: 600.ms),
+                        const SizedBox(height: 16),
+                        const Text(
+                              'Welcome Back',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            )
+                            .animate()
+                            .fadeIn(duration: 600.ms)
+                            .slideY(begin: -0.2, duration: 600.ms),
+                        const SizedBox(height: 8),
+                        const Text(
+                              'Log in to your ArcadiaX account',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromRGBO(200, 200, 200, 1),
+                              ),
+                            )
+                            .animate()
+                            .fadeIn(duration: 700.ms, delay: 100.ms)
+                            .slideY(
+                              begin: -0.2,
+                              duration: 700.ms,
+                              delay: 100.ms,
+                            ),
+                      ],
                     ),
-                  )
-                      .animate()
-                      .fadeIn(duration: 600.ms)
-                      .slideY(begin: -0.2, duration: 600.ms),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'Log in to your ArcadiaX account',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color.fromRGBO(200, 200, 200, 1),
-                    ),
-                  )
-                      .animate()
-                      .fadeIn(duration: 700.ms, delay: 100.ms)
-                      .slideY(begin: -0.2, duration: 700.ms, delay: 100.ms),
+                  ),
                   const SizedBox(height: 40),
 
                   // Error message
                   if (authState.error != null)
                     Container(
-                      padding: const EdgeInsets.all(12),
-                      margin: const EdgeInsets.only(bottom: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.red.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.red, width: 1),
-                      ),
-                      child: Text(
-                        authState.error!,
-                        style: const TextStyle(
-                          color: Color.fromARGB(255, 255, 100, 100),
-                          fontSize: 12,
-                        ),
-                      ),
-                    )
+                          padding: const EdgeInsets.all(12),
+                          margin: const EdgeInsets.only(bottom: 20),
+                          decoration: BoxDecoration(
+                            color: Colors.red.withAlpha(51),
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.red, width: 1),
+                          ),
+                          child: Text(
+                            authState.error!,
+                            style: const TextStyle(
+                              color: Color.fromARGB(255, 255, 100, 100),
+                              fontSize: 12,
+                            ),
+                          ),
+                        )
                         .animate()
                         .fadeIn(duration: 400.ms)
                         .scale(begin: const Offset(0.95, 0.95)),
 
                   // Email Field
                   const Text(
-                    'Email',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
+                        'Email',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
                       .animate()
                       .fadeIn(duration: 800.ms, delay: 200.ms)
                       .slideY(begin: 0.2, duration: 800.ms, delay: 200.ms),
                   const SizedBox(height: 8),
                   TextFormField(
-                    controller: _emailController,
-                    enabled: !authState.isLoading,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      hintText: 'example@email.com',
-                      hintStyle: const TextStyle(
-                        color: Color.fromRGBO(150, 150, 150, 1),
-                      ),
-                      fillColor: const Color.fromRGBO(50, 50, 50, 1),
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                    ),
-                    style: const TextStyle(color: Colors.white),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Email cannot be empty';
-                      }
-                      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },
-                  )
+                        controller: _emailController,
+                        enabled: !authState.isLoading,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          hintText: 'example@email.com',
+                          hintStyle: const TextStyle(
+                            color: Color.fromRGBO(150, 150, 150, 1),
+                          ),
+                          fillColor: const Color.fromRGBO(50, 50, 50, 1),
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.person_outline,
+                            color: Color.fromRGBO(150, 150, 150, 1),
+                          ),
+                        ),
+                        style: const TextStyle(color: Colors.white),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Email cannot be empty';
+                          }
+                          if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
+                      )
                       .animate()
                       .fadeIn(duration: 800.ms, delay: 200.ms)
                       .slideY(begin: 0.2, duration: 800.ms, delay: 200.ms),
@@ -178,60 +200,64 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                   // Password Field
                   const Text(
-                    'Password',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
+                        'Password',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
                       .animate()
                       .fadeIn(duration: 800.ms, delay: 300.ms)
                       .slideY(begin: 0.2, duration: 800.ms, delay: 300.ms),
                   const SizedBox(height: 8),
                   TextFormField(
-                    controller: _passwordController,
-                    enabled: !authState.isLoading,
-                    obscureText: _obscurePassword,
-                    decoration: InputDecoration(
-                      hintText: 'Enter your password',
-                      hintStyle: const TextStyle(
-                        color: Color.fromRGBO(150, 150, 150, 1),
-                      ),
-                      fillColor: const Color.fromRGBO(50, 50, 50, 1),
-                      filled: true,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide.none,
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _obscurePassword
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                          color: const Color.fromRGBO(150, 150, 150, 1),
+                        controller: _passwordController,
+                        enabled: !authState.isLoading,
+                        obscureText: _obscurePassword,
+                        decoration: InputDecoration(
+                          hintText: 'Enter your password',
+                          hintStyle: const TextStyle(
+                            color: Color.fromRGBO(150, 150, 150, 1),
+                          ),
+                          fillColor: const Color.fromRGBO(50, 50, 50, 1),
+                          filled: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 12,
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.lock_outline,
+                            color: Color.fromRGBO(150, 150, 150, 1),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: const Color.fromRGBO(150, 150, 150, 1),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
                         ),
-                        onPressed: () {
-                          setState(() {
-                            _obscurePassword = !_obscurePassword;
-                          });
+                        style: const TextStyle(color: Colors.white),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Password cannot be empty';
+                          }
+                          if (value.length < 6) {
+                            return 'Password must be at least 6 characters';
+                          }
+                          return null;
                         },
-                      ),
-                    ),
-                    style: const TextStyle(color: Colors.white),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Password cannot be empty';
-                      }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
-                      return null;
-                    },
-                  )
+                      )
                       .animate()
                       .fadeIn(duration: 800.ms, delay: 300.ms)
                       .slideY(begin: 0.2, duration: 800.ms, delay: 300.ms),
@@ -239,25 +265,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                   // Forgot Password Link
                   Align(
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Forgot password feature coming soon!'),
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Forgot password feature coming soon!',
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Forgot Password?',
+                            style: TextStyle(
+                              color: Colors.blue[400],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
                           ),
-                        );
-                      },
-                      child: Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          color: Colors.blue[400],
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
                         ),
-                      ),
-                    ),
-                  )
+                      )
                       .animate()
                       .fadeIn(duration: 800.ms, delay: 350.ms)
                       .slideY(begin: 0.2, duration: 800.ms, delay: 350.ms),
@@ -265,39 +293,39 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                   // Login Button
                   SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: authState.isLoading ? null : _handleLogin,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue[600],
-                        disabledBackgroundColor:
-                            Colors.blue[600]?.withOpacity(0.5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      child: authState.isLoading
-                          ? const SizedBox(
-                              height: 24,
-                              width: 24,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.white,
-                                ),
-                              ),
-                            )
-                          : const Text(
-                              'Log In',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: authState.isLoading ? null : _handleLogin,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue[600],
+                            disabledBackgroundColor: Colors.blue[600]
+                                ?.withOpacity(0.5),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                    ),
-                  )
+                          ),
+                          child: authState.isLoading
+                              ? const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white,
+                                    ),
+                                  ),
+                                )
+                              : const Text(
+                                  'Log In',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                        ),
+                      )
                       .animate()
                       .fadeIn(duration: 800.ms, delay: 400.ms)
                       .slideY(begin: 0.2, duration: 800.ms, delay: 400.ms)
@@ -306,34 +334,34 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                   // Sign Up Link
                   Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const RegisterScreen(),
-                          ),
-                        );
-                      },
-                      child: RichText(
-                        text: TextSpan(
-                          text: "Don't have an account? ",
-                          style: const TextStyle(
-                            color: Color.fromRGBO(200, 200, 200, 1),
-                          ),
-                          children: [
-                            TextSpan(
-                              text: 'Sign Up',
-                              style: TextStyle(
-                                color: Colors.blue[400],
-                                fontWeight: FontWeight.bold,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const RegisterScreen(),
                               ),
+                            );
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              text: "Don't have an account? ",
+                              style: const TextStyle(
+                                color: Color.fromRGBO(200, 200, 200, 1),
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'Sign Up',
+                                  style: TextStyle(
+                                    color: Colors.blue[400],
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  )
+                      )
                       .animate()
                       .fadeIn(duration: 800.ms, delay: 450.ms)
                       .slideY(begin: 0.2, duration: 800.ms, delay: 450.ms),

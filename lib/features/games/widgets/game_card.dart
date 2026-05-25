@@ -62,18 +62,57 @@ class GameCard extends StatelessWidget {
               ),
             ),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                children: [
-                  const Icon(Icons.star, color: Colors.amber, size: 16),
-                  const SizedBox(width: 4),
-                  Text(
-                    "${game.rating}",
-                    style: const TextStyle(fontSize: 12, color: Colors.amber),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.star, color: Colors.amber, size: 16),
+                      const SizedBox(width: 4),
+                      Text(
+                        "${game.rating}",
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.amber,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.blueGrey[700],
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      game.platforms.isNotEmpty
+                          ? game.platforms.first.platform.name
+                          : "Unknown",
+                      style: const TextStyle(fontSize: 10, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            Wrap(
+              spacing: 4,
+              runSpacing: 4,
+              children: game.genres.map((genre) {
+                return Chip(
+                  label: Text(
+                    genre.name,
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
+                  ),
+                  backgroundColor: Colors.blueGrey[700],
+                );
+              }).toList(),
             ),
 
             const SizedBox(height: 8),

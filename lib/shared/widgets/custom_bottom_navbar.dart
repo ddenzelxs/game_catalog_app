@@ -13,7 +13,7 @@ class CustomBottomNavbar extends ConsumerWidget {
     return Container(
       decoration: BoxDecoration(
         color: const Color(0xFF1E1E1E),
-        border: Border(top: BorderSide(color: Colors.white.withOpacity(0.05))),
+        border: Border(top: BorderSide(color: Colors.white.withAlpha(13))),
       ),
       child: BottomNavigationBar(
         currentIndex: currentIndex,
