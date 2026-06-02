@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'main_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'core/services/hive_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,13 +13,12 @@ void main() async {
 
   await Hive.initFlutter();
 
+  await HiveService.initHive();
+
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL']!,
     anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
-
-  // await Hive.openBox('wishlist');
-  // await Hive.openBox('ratings');
 
   final supabase = Supabase.instance.client;
 

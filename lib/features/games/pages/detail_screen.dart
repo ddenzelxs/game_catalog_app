@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_view/photo_view.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-import '../providers/game_detail_provider.dart';
+import 'package:game_catalog/features/games/providers/game_detail_provider.dart';
+import 'package:game_catalog/features/cart/models/cart_item_model.dart';
+import 'package:game_catalog/features/cart/services/cart_service.dart';
+import 'package:game_catalog/features/wishlist/models/wishlist_item_model.dart';
+import 'package:game_catalog/features/wishlist/services/wishlist_service.dart';
+import 'package:game_catalog/core/services/hive_service.dart';
 
 class DetailScreen extends ConsumerWidget {
   final int gameId;
@@ -149,6 +155,8 @@ class DetailScreen extends ConsumerWidget {
                             ),
                           ),
                           const SizedBox(height: 16),
+                          _ActionButtons(gameId: gameId, game: game),
+                          const SizedBox(height: 16),
                           const Text(
                             'Description',
                             style: TextStyle(
@@ -176,6 +184,115 @@ class DetailScreen extends ConsumerWidget {
           );
         },
       ),
+    );
+  }
+}
+
+class _ActionButtons extends StatefulWidget {
+  final int gameId;
+  final dynamic game;
+
+  const _ActionButtons({
+    required this.gameId,
+    required this.game,
+  });
+
+  @override
+  State<_ActionButtons> createState() => _ActionButtonsState();
+}
+
+class _ActionButtonsState extends State<_ActionButtons> {
+  late CartService _cartService;
+  late WishlistService _wishlistService;
+
+  @override
+  void initState() {
+    super.initState();
+    _cartService = CartService();
+    _wishlistService = WishlistService();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: Hive.box<CartItem>(HiveService.cartBoxName).listenable(),
+      builder: (context, Box<CartItem> cartBox, _) {
+        final isInCart = _cartService.isInCart(widget.gameId);
+
+        return ValueListenableBuilder(
+          valueListenable: Hive.box<WishlistItem>(HiveService.wishlistBoxName).listenable(),
+          builder: (context, Box<WishlistItem> wishlistBox, _) {
+            final isInWishlist = _wishlistService.isInWishlist(widget.gameId);
+
+            return Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: isInCart
+                        ? () {
+                            _cartService.removeFromCart(widget.gameId);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Removed from cart')),
+                            );
+                          }
+                        : () {
+                            final cartItem = CartItem(
+                              gameId: widget.gameId,
+                              gameName: widget.game.name,
+                              backgroundImage: widget.game.backgroundImage,
+                              price: 29.99,
+                              rating: widget.game.rating,
+                              addedAt: DateTime.now(),
+                            );
+                            _cartService.addToCart(cartItem);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Added to cart')),
+                            );
+                          },
+                    icon: Icon(isInCart ? Icons.remove : Icons.add),
+                    label: Text(isInCart ? 'Remove from Cart' : 'Add to Cart'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isInCart ? Colors.red : Colors.amber,
+                      foregroundColor: Colors.black,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: isInWishlist
+                        ? () {
+                            _wishlistService.removeFromWishlist(widget.gameId);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Removed from wishlist')),
+                            );
+                          }
+                        : () {
+                            final wishlistItem = WishlistItem(
+                              gameId: widget.gameId,
+                              gameName: widget.game.name,
+                              backgroundImage: widget.game.backgroundImage,
+                              rating: widget.game.rating,
+                              addedAt: DateTime.now(),
+                            );
+                            _wishlistService.addToWishlist(wishlistItem);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Added to wishlist')),
+                            );
+                          },
+                    icon: Icon(isInWishlist ? Icons.favorite : Icons.favorite_outline),
+                    label: Text(isInWishlist ? 'Remove' : 'Wishlist'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isInWishlist ? Colors.red : Colors.blueGrey,
+                      foregroundColor: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }

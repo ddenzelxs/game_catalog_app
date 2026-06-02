@@ -300,7 +300,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue[600],
                             disabledBackgroundColor: Colors.blue[600]
-                                ?.withOpacity(0.5),
+                                ?.withAlpha(128),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
