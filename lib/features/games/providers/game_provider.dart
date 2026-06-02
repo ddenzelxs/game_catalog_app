@@ -8,11 +8,20 @@ class GameNotifier extends StateNotifier<GameState> {
 
   GameNotifier(this.api) : super(GameState.initial());
 
-  Future<void> fetchGames() async {
+  Future<void> fetchGames({String? searchQuery, String? genreSlug}) async {
     try {
-      state = state.copyWith(isLoading: true, error: null);
+      state = state.copyWith(
+        isLoading: true,
+        error: null,
+        searchQuery: searchQuery ?? state.searchQuery,
+        genreSlug: genreSlug ?? state.genreSlug,
+      );
 
-      final games = await api.fetchGames(page: 1);
+      final games = await api.fetchGames(
+        page: 1,
+        search: state.searchQuery,
+        genres: state.genreSlug,
+      );
 
       state = state.copyWith(
         games: games,
@@ -35,7 +44,11 @@ class GameNotifier extends StateNotifier<GameState> {
       state = state.copyWith(isLoadingMore: true);
 
       final nextPage = state.page + 1;
-      final newGames = await api.fetchGames(page: nextPage);
+      final newGames = await api.fetchGames(
+        page: nextPage,
+        search: state.searchQuery,
+        genres: state.genreSlug,
+      );
 
       state = state.copyWith(
         games: [...state.games, ...newGames],

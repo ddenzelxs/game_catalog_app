@@ -16,16 +16,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _emailController = TextEditingController();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
 
   @override
   void dispose() {
     _emailController.dispose();
     _usernameController.dispose();
     _passwordController.dispose();
-    _confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -43,7 +40,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         _emailController.clear();
         _usernameController.clear();
         _passwordController.clear();
-        _confirmPasswordController.clear();
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -113,10 +109,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             .slideY(begin: -0.2, duration: 600.ms),
                         const SizedBox(height: 8),
                         const Text(
-                              'Join us to explore amazing games',
+                              'Join ArcadiaX and start gaming',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Color.fromRGBO(200, 200, 200, 1),
+                                color: Color.fromRGBO(150, 150, 150, 1),
                               ),
                             )
                             .animate()
@@ -168,7 +164,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         controller: _usernameController,
                         enabled: !authState.isLoading,
                         decoration: InputDecoration(
-                          hintText: 'Your username',
+                          hintText: 'Choose a username',
                           hintStyle: const TextStyle(
                             color: Color.fromRGBO(150, 150, 150, 1),
                           ),
@@ -223,7 +219,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         enabled: !authState.isLoading,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
-                          hintText: 'example@email.com',
+                          hintText: 'you@email.com',
                           hintStyle: const TextStyle(
                             color: Color.fromRGBO(150, 150, 150, 1),
                           ),
@@ -277,7 +273,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         enabled: !authState.isLoading,
                         obscureText: _obscurePassword,
                         decoration: InputDecoration(
-                          hintText: 'Enter your password',
+                          hintText: 'Create a password',
                           hintStyle: const TextStyle(
                             color: Color.fromRGBO(150, 150, 150, 1),
                           ),
@@ -327,72 +323,57 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   const SizedBox(height: 20),
                   // ======= Password =====
 
-                  // ======= Confirm Password =====
-                  const Text(
-                        'Confirm Password',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
+                  // ======= Terms and Conditions =====
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: true,
+                        onChanged: (value) {},
+                        fillColor: WidgetStateProperty.all(
+                          Colors.purple[600],
                         ),
-                      )
-                      .animate()
-                      .fadeIn(duration: 800.ms, delay: 350.ms)
-                      .slideY(begin: 0.2, duration: 800.ms, delay: 350.ms),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                        controller: _confirmPasswordController,
-                        enabled: !authState.isLoading,
-                        obscureText: _obscureConfirmPassword,
-                        decoration: InputDecoration(
-                          hintText: 'Confirm your password',
-                          hintStyle: const TextStyle(
-                            color: Color.fromRGBO(150, 150, 150, 1),
-                          ),
-                          fillColor: const Color.fromRGBO(50, 50, 50, 1),
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          prefixIcon: const Icon(
-                            Icons.lock_outline,
-                            color: Color.fromRGBO(150, 150, 150, 1),
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _obscureConfirmPassword
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: const Color.fromRGBO(150, 150, 150, 1),
+                        side: BorderSide(
+                          color: Colors.purple[600]!,
+                          width: 2,
+                        ),
+                      ),
+                      Expanded(
+                        child: RichText(
+                          text: TextSpan(
+                            text: 'I agree to the ',
+                            style: const TextStyle(
+                              color: Color.fromRGBO(150, 150, 150, 1),
+                              fontSize: 12,
                             ),
-                            onPressed: () {
-                              setState(() {
-                                _obscureConfirmPassword =
-                                    !_obscureConfirmPassword;
-                              });
-                            },
+                            children: [
+                              TextSpan(
+                                text: 'Terms of Service',
+                                style: TextStyle(
+                                  color: Colors.blue[400],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const TextSpan(
+                                text: ' and ',
+                                style: TextStyle(
+                                  color: Color.fromRGBO(150, 150, 150, 1),
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'Privacy Policy',
+                                style: TextStyle(
+                                  color: Colors.blue[400],
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        style: const TextStyle(color: Colors.white),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please confirm your password';
-                          }
-                          if (value != _passwordController.text) {
-                            return 'Passwords do not match';
-                          }
-                          return null;
-                        },
-                      )
-                      .animate()
-                      .fadeIn(duration: 800.ms, delay: 350.ms)
-                      .slideY(begin: 0.2, duration: 800.ms, delay: 350.ms),
+                      ),
+                    ],
+                  ).animate().fadeIn(duration: 800.ms, delay: 350.ms),
                   const SizedBox(height: 30),
-                  // ======= Confirm Password =====
+                  // ======= Terms and Conditions =====
 
                   SizedBox(
                         width: double.infinity,
@@ -402,8 +383,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               ? null
                               : _handleRegister,
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue[600],
-                            disabledBackgroundColor: Colors.blue[600]
+                            backgroundColor: Colors.purple[600],
+                            disabledBackgroundColor: Colors.purple[600]
                                 ?.withAlpha(100),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
@@ -452,7 +433,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               ),
                               children: [
                                 TextSpan(
-                                  text: 'Log In',
+                                  text: 'Login',
                                   style: TextStyle(
                                     color: Colors.blue[400],
                                     fontWeight: FontWeight.bold,

@@ -11,9 +11,9 @@ class CustomBottomNavbar extends ConsumerWidget {
     final currentIndex = ref.watch(bottomNavProvider);
 
     return Container(
-      decoration: BoxDecoration(
-        color: const Color(0xFF1E1E1E),
-        border: Border(top: BorderSide(color: Colors.white.withAlpha(13))),
+      decoration: const BoxDecoration(
+        color: Color(0xFF0D0E12),
+        border: Border(top: BorderSide(color: Color(0xFF2B2D3B))),
       ),
       child: BottomNavigationBar(
         currentIndex: currentIndex,
@@ -28,9 +28,9 @@ class CustomBottomNavbar extends ConsumerWidget {
 
         type: BottomNavigationBarType.fixed,
 
-        selectedItemColor: const Color(0xFF9B5CFF),
+        selectedItemColor: Theme.of(context).primaryColor,
 
-        unselectedItemColor: Colors.grey,
+        unselectedItemColor: const Color(0xFF9CA3AF),
 
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),

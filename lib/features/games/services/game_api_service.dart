@@ -5,10 +5,23 @@ import '../models/game_model.dart';
 import '../models/game_detail_model.dart';
 
 class GameApiService {
-  Future<List<Game>> fetchGames({int page = 1}) async {
-    final url = Uri.parse(
-      '${ApiConstants.baseUrl}/games?key=${ApiConstants.apiKey}&page=$page',
-    );
+  Future<List<Game>> fetchGames({
+    int page = 1,
+    String? search,
+    String? genres,
+  }) async {
+    String urlString =
+        '${ApiConstants.baseUrl}/games?key=${ApiConstants.apiKey}&page=$page';
+
+    if (search != null && search.isNotEmpty) {
+      urlString += '&search=${Uri.encodeComponent(search)}';
+    }
+
+    if (genres != null && genres.isNotEmpty) {
+      urlString += '&genres=$genres';
+    }
+
+    final url = Uri.parse(urlString);
 
     final response = await http.get(url);
 

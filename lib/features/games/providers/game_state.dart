@@ -7,6 +7,8 @@ class GameState {
   final String? error;
   final int page;
   final bool hasMore;
+  final String searchQuery;
+  final String genreSlug;
 
   GameState({
     required this.games,
@@ -14,6 +16,8 @@ class GameState {
     required this.isLoadingMore,
     required this.page,
     required this.hasMore,
+    required this.searchQuery,
+    required this.genreSlug,
     this.error,
   });
 
@@ -24,6 +28,8 @@ class GameState {
       isLoadingMore: false,
       page: 1,
       hasMore: true,
+      searchQuery: '',
+      genreSlug: '',
       error: null,
     );
   }
@@ -35,6 +41,8 @@ class GameState {
     String? error,
     int? page,
     bool? hasMore,
+    String? searchQuery,
+    String? genreSlug,
   }) {
     return GameState(
       games: games ?? this.games,
@@ -43,6 +51,8 @@ class GameState {
       error: error,
       page: page ?? this.page,
       hasMore: hasMore ?? this.hasMore,
+      searchQuery: searchQuery ?? this.searchQuery,
+      genreSlug: genreSlug ?? this.genreSlug,
     );
   }
 }

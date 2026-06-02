@@ -106,10 +106,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             .slideY(begin: -0.2, duration: 600.ms),
                         const SizedBox(height: 8),
                         const Text(
-                              'Log in to your ArcadiaX account',
+                              'Login to continue your gaming journey',
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Color.fromRGBO(200, 200, 200, 1),
+                                color: Color.fromRGBO(150, 150, 150, 1),
                               ),
                             )
                             .animate()
@@ -163,7 +163,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         enabled: !authState.isLoading,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
-                          hintText: 'example@email.com',
+                          hintText: 'you@email.com',
                           hintStyle: const TextStyle(
                             color: Color.fromRGBO(150, 150, 150, 1),
                           ),
@@ -330,6 +330,80 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       .fadeIn(duration: 800.ms, delay: 400.ms)
                       .slideY(begin: 0.2, duration: 800.ms, delay: 400.ms)
                       .scale(delay: 400.ms),
+                  const SizedBox(height: 20),
+
+                  // Divider with text
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          color: const Color.fromRGBO(100, 100, 100, 1),
+                          thickness: 1,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          'Or continue with',
+                          style: TextStyle(
+                            color: Color.fromRGBO(150, 150, 150, 1),
+                            fontSize: 12,
+                          ),
+                        ).animate().fadeIn(duration: 800.ms, delay: 450.ms),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          color: const Color.fromRGBO(100, 100, 100, 1),
+                          thickness: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Google Login Button
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: OutlinedButton.icon(
+                      onPressed: authState.isLoading
+                          ? null
+                          : () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Google login coming soon!',
+                                  ),
+                                ),
+                              );
+                            },
+                      style: OutlinedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        side: const BorderSide(
+                          color: Color.fromRGBO(100, 100, 100, 1),
+                          width: 1,
+                        ),
+                      ),
+                      icon: const Icon(
+                        Icons.g_translate,
+                        color: Colors.white,
+                      ),
+                      label: const Text(
+                        'Login with Google',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ).animate().fadeIn(duration: 800.ms, delay: 500.ms).slideY(
+                        begin: 0.2,
+                        duration: 800.ms,
+                        delay: 500.ms,
+                      ),
                   const SizedBox(height: 20),
 
                   // Sign Up Link

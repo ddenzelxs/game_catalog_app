@@ -27,7 +27,7 @@ class DetailScreen extends ConsumerWidget {
           return Stack(
             children: [
               Container(
-                color: const Color.fromRGBO(30, 30, 30, 1),
+                color: const Color(0xFF0D0E12),
               ),
               Positioned.fill(
                 child: Image.network(
@@ -38,7 +38,7 @@ class DetailScreen extends ConsumerWidget {
               ),
               Positioned.fill(
                 child: Container(
-                  color: const Color.fromRGBO(0, 0, 0, 0.5),
+                  color: Colors.black.withAlpha(128),
                 ),
               ),
               CustomScrollView(
@@ -65,7 +65,7 @@ class DetailScreen extends ConsumerWidget {
                                 children: [
                                   Positioned.fill(
                                     child: Container(
-                                      color: const Color.fromRGBO(0, 0, 0, 0.8),
+                                      color: Colors.black.withAlpha(204),
                                     ),
                                   ),
                                   Center(
@@ -133,7 +133,7 @@ class DetailScreen extends ConsumerWidget {
                   ),
                   SliverToBoxAdapter(
                     child: Container(
-                      color: const Color.fromRGBO(30, 30, 30, 1),
+                      color: const Color(0xFF0D0E12),
                       padding: const EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,7 +151,7 @@ class DetailScreen extends ConsumerWidget {
                             'Rating: ${game.rating}/5',
                             style: const TextStyle(
                               fontSize: 16,
-                              color: Color.fromRGBO(200, 200, 200, 1),
+                              color: Color(0xFF9CA3AF),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -170,7 +170,7 @@ class DetailScreen extends ConsumerWidget {
                             game.description,
                             style: const TextStyle(
                               fontSize: 14,
-                              color: Color.fromRGBO(200, 200, 200, 1),
+                              color: Color(0xFF9CA3AF),
                               height: 1.5,
                             ),
                           ),
@@ -240,7 +240,7 @@ class _ActionButtonsState extends State<_ActionButtons> {
                               gameId: widget.gameId,
                               gameName: widget.game.name,
                               backgroundImage: widget.game.backgroundImage,
-                              price: 29.99,
+                              price: 19.99,
                               rating: widget.game.rating,
                               addedAt: DateTime.now(),
                             );
@@ -250,10 +250,10 @@ class _ActionButtonsState extends State<_ActionButtons> {
                             );
                           },
                     icon: Icon(isInCart ? Icons.remove : Icons.add),
-                    label: Text(isInCart ? 'Remove from Cart' : 'Add to Cart'),
+                    label: Text(isInCart ? 'Remove' : 'Add to Cart'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: isInCart ? Colors.red : Colors.amber,
-                      foregroundColor: Colors.black,
+                      backgroundColor: isInCart ? Colors.red : Theme.of(context).primaryColor,
+                      foregroundColor: Colors.white,
                     ),
                   ),
                 ),
@@ -283,8 +283,9 @@ class _ActionButtonsState extends State<_ActionButtons> {
                     icon: Icon(isInWishlist ? Icons.favorite : Icons.favorite_outline),
                     label: Text(isInWishlist ? 'Remove' : 'Wishlist'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: isInWishlist ? Colors.red : Colors.blueGrey,
+                      backgroundColor: isInWishlist ? Colors.red : const Color(0xFF1B1C24),
                       foregroundColor: Colors.white,
+                      side: isInWishlist ? null : const BorderSide(color: Color(0xFF2B2D3B), width: 1),
                     ),
                   ),
                 ),
