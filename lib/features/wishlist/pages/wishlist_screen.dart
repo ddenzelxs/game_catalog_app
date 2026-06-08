@@ -3,7 +3,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:game_catalog/features/wishlist/models/wishlist_item_model.dart';
 import 'package:game_catalog/features/wishlist/services/wishlist_service.dart';
 import 'package:game_catalog/core/services/hive_service.dart';
-import 'package:game_catalog/features/cart/services/cart_service.dart';
 import 'package:game_catalog/features/games/pages/detail_screen.dart';
 
 class WishlistScreen extends StatefulWidget {

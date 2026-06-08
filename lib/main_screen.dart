@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'core/navigation/navigation_provider.dart';
 
 import 'features/games/pages/home_screen.dart';
+import 'features/recommendation/pages/ai_recommendation_screen.dart';
 import 'features/cart/pages/cart_screen.dart';
 import 'features/profile/pages/profile_screen.dart';
 import 'features/wishlist/pages/wishlist_screen.dart';
@@ -19,6 +20,7 @@ class MainScreen extends ConsumerWidget {
 
     final screens = [
       const HomeScreen(),
+      const AiRecommendationScreen(),
       const WishlistScreen(),
       const CartScreen(),
       const ProfileScreen(),

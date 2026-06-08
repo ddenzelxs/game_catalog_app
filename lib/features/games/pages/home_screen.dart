@@ -74,9 +74,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // =========================
-                // HEADER
-                // =========================
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -108,9 +105,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                 const SizedBox(height: 20),
 
-                // =========================
-                // SEARCH BAR
-                // =========================
                 TextField(
                   controller: _searchController,
                   style: const TextStyle(color: Colors.white),
@@ -128,12 +122,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     hintText: "Search ...",
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
-                // =========================
-                // CATEGORY
-                // =========================
                 SizedBox(
                   height: 42,
 
@@ -195,9 +184,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                 const SizedBox(height: 20),
 
-                // =========================
-                // GAME GRID
-                // =========================
                 Expanded(
                   child: LayoutBuilder(
                     builder: (context, constraints) {
@@ -215,9 +201,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         childAspectRatio = 1.15;
                       }
 
-                      // =========================
-                      // SHIMMER
-                      // =========================
 
                       if (state.isLoading && state.games.isEmpty) {
                         return GridView.builder(
@@ -237,9 +220,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         );
                       }
 
-                      // =========================
-                      // GRID DATA
-                      // =========================
 
                       return GridView.builder(
                         controller: _scrollController,

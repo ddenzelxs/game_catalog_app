@@ -36,6 +36,11 @@ class CustomBottomNavbar extends ConsumerWidget {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
 
           BottomNavigationBarItem(
+            icon: Icon(Icons.auto_awesome),
+            label: "AI Recommend",
+          ),
+
+          BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
             label: "Wishlist",
           ),
