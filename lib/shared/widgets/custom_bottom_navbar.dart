@@ -46,8 +46,8 @@ class CustomBottomNavbar extends ConsumerWidget {
           ),
 
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: "Cart",
+            icon: Icon(Icons.video_library),
+            label: "Library",
           ),
 
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/supabase/supabase_client.dart';
 import '../services/auth_service.dart';
+import '../../profile/utils/level_system.dart';
 
 class AuthState {
   final bool isLoading;
@@ -111,7 +112,8 @@ final currentUserProvider = StreamProvider<User?>((ref) {
 });
 
 final userProfileProvider = FutureProvider<Map<String, dynamic>?>((ref) async {
-  final user = supabase.auth.currentUser;
+  final userAsync = ref.watch(currentUserProvider);
+  final user = userAsync.value;
   
   if (user == null) {
     return null;
@@ -130,3 +132,36 @@ final userProfileProvider = FutureProvider<Map<String, dynamic>?>((ref) async {
     return null;
   }
 });
+
+class XpService {
+  final Ref _ref;
+  XpService(this._ref);
+
+  Future<void> addXp(int amount) async {
+    final user = supabase.auth.currentUser;
+    if (user == null) return;
+
+    try {
+      final profile = await _ref.read(userProfileProvider.future);
+      final currentXp = profile?['xp'] as int? ?? 0;
+      final newXp = currentXp + amount;
+      
+      // Calculate level using LevelSystem
+      final newLevel = LevelSystem.getLevel(newXp);
+
+      await supabase
+          .from('profiles')
+          .update({
+            'xp': newXp,
+            'level': newLevel,
+          })
+          .eq('id', user.id);
+
+      _ref.invalidate(userProfileProvider);
+    } catch (e) {
+      print('Error updating XP: $e');
+    }
+  }
+}
+
+final xpServiceProvider = Provider((ref) => XpService(ref));

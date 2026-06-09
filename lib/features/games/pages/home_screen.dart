@@ -80,26 +80,26 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     const Text(
                       "ArcadiaX",
                       style: TextStyle(
-                        fontSize: 32,
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
 
-                    Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF1B1C24),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: const Color(0xFF2B2D3B),
-                          width: 1,
-                        ),
-                      ),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.tune, color: Colors.white),
-                      ),
-                    ),
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //     color: const Color(0xFF1B1C24),
+                    //     borderRadius: BorderRadius.circular(12),
+                    //     border: Border.all(
+                    //       color: const Color(0xFF2B2D3B),
+                    //       width: 1,
+                    //     ),
+                    //   ),
+                    //   child: IconButton(
+                    //     onPressed: () {},
+                    //     icon: const Icon(Icons.tune, color: Colors.white),
+                    //   ),
+                    // ),
                   ],
                 ),
 
@@ -109,13 +109,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   controller: _searchController,
                   style: const TextStyle(color: Colors.white),
                   onChanged: (val) {
-                    if (_debounceTimer?.isActive ?? false) _debounceTimer!.cancel();
-                    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
-                      ref.read(gameProvider.notifier).fetchGames(
-                        searchQuery: val,
-                        genreSlug: _categories[_selectedCategoryIndex]['slug']!,
-                      );
-                    });
+                    if (_debounceTimer?.isActive ?? false)
+                      _debounceTimer!.cancel();
+                    _debounceTimer = Timer(
+                      const Duration(milliseconds: 500),
+                      () {
+                        ref
+                            .read(gameProvider.notifier)
+                            .fetchGames(
+                              searchQuery: val,
+                              genreSlug:
+                                  _categories[_selectedCategoryIndex]['slug']!,
+                            );
+                      },
+                    );
                   },
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.search),
@@ -139,10 +146,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           setState(() {
                             _selectedCategoryIndex = index;
                           });
-                          ref.read(gameProvider.notifier).fetchGames(
-                            genreSlug: category['slug']!,
-                            searchQuery: _searchController.text,
-                          );
+                          ref
+                              .read(gameProvider.notifier)
+                              .fetchGames(
+                                genreSlug: category['slug']!,
+                                searchQuery: _searchController.text,
+                              );
                         },
 
                         child: Container(
@@ -171,7 +180,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             child: Text(
                               category['name']!,
                               style: TextStyle(
-                                color: isSelected ? Colors.white : const Color(0xFF9CA3AF),
+                                color: isSelected
+                                    ? Colors.white
+                                    : const Color(0xFF9CA3AF),
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -201,7 +212,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         childAspectRatio = 1.15;
                       }
 
-
                       if (state.isLoading && state.games.isEmpty) {
                         return GridView.builder(
                           itemCount: crossAxisCount * 2,
@@ -220,7 +230,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         );
                       }
 
-
                       return GridView.builder(
                         controller: _scrollController,
 
@@ -230,11 +239,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: crossAxisCount,
-
                           childAspectRatio: childAspectRatio,
-
                           crossAxisSpacing: 12,
-
                           mainAxisSpacing: 12,
                         ),
 

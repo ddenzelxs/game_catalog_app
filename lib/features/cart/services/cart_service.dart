@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:game_catalog/features/cart/models/cart_item_model.dart';
 import 'package:game_catalog/core/services/hive_service.dart';
+import 'package:game_catalog/core/services/sync_service.dart';
 
 class CartService {
   late Box<CartItem> _cartBox;
@@ -17,6 +18,7 @@ class CartService {
         return;
       }
       await _cartBox.add(item);
+      await SyncService.syncBacklogToCloud(item);
     } catch (e) {
       print('Error adding to cart: $e');
     }
@@ -27,6 +29,7 @@ class CartService {
       final key = _findItemKey(gameId);
       if (key != null) {
         await _cartBox.delete(key);
+        await SyncService.deleteBacklogFromCloud(gameId);
       }
     } catch (e) {
       print('Error removing from cart: $e');
@@ -45,6 +48,7 @@ class CartService {
   Future<void> clearCart() async {
     try {
       await _cartBox.clear();
+      await SyncService.clearLocalData();
     } catch (e) {
       print('Error clearing cart: $e');
     }
@@ -64,6 +68,23 @@ class CartService {
       total += item.price;
     }
     return total;
+  }
+
+  /// Update backlog status
+  Future<void> updateStatus(int gameId, String newStatus) async {
+    try {
+      final key = _findItemKey(gameId);
+      if (key != null) {
+        final item = _cartBox.get(key);
+        if (item != null) {
+          item.status = newStatus;
+          await item.save();
+          await SyncService.syncBacklogToCloud(item);
+        }
+      }
+    } catch (e) {
+      print('Error updating status: $e');
+    }
   }
 
   dynamic _findItemKey(int gameId) {

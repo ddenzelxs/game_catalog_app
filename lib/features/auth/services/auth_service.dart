@@ -29,7 +29,7 @@ class AuthService {
         throw Exception('User registration failed: User not created');
       }
 
-      await supabase.from('profiles').insert({
+      await supabase.from('profiles').upsert({
         'id': user.id,
         'username': username,
         'email': email,

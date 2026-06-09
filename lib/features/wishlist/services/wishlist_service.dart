@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:game_catalog/features/wishlist/models/wishlist_item_model.dart';
 import 'package:game_catalog/core/services/hive_service.dart';
+import 'package:game_catalog/core/services/sync_service.dart';
 
 class WishlistService {
   late Box<WishlistItem> _wishlistBox;
@@ -16,6 +17,7 @@ class WishlistService {
         return;
       }
       await _wishlistBox.add(item);
+      await SyncService.syncWishlistToCloud(item);
     } catch (e) {
       print('Error adding to wishlist: $e');
     }
@@ -26,6 +28,7 @@ class WishlistService {
       final key = _findItemKey(gameId);
       if (key != null) {
         await _wishlistBox.delete(key);
+        await SyncService.deleteWishlistFromCloud(gameId);
       }
     } catch (e) {
       print('Error removing from wishlist: $e');

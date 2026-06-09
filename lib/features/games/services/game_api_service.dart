@@ -36,18 +36,44 @@ class GameApiService {
   }
 
   Future<GameDetail> fetchGameDetail(int id) async {
-    final url = Uri.parse(
+    final detailUrl = Uri.parse(
       '${ApiConstants.baseUrl}/games/$id?key=${ApiConstants.apiKey}',
     );
+    final screenshotsUrl = Uri.parse(
+      '${ApiConstants.baseUrl}/games/$id/screenshots?key=${ApiConstants.apiKey}',
+    );
 
-    final response = await http.get(url);
+    try {
+      // Run detail and screenshot fetches concurrently
+      final responses = await Future.wait([
+        http.get(detailUrl),
+        http.get(screenshotsUrl),
+      ]);
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
+      final detailRes = responses[0];
+      final screenshotsRes = responses[1];
 
-      return GameDetail.fromJson(data);
-    } else {
-      throw Exception('Failed to load game detail');
+      if (detailRes.statusCode == 200) {
+        final detailData = json.decode(detailRes.body);
+
+        List<String> screenshots = [];
+        if (screenshotsRes.statusCode == 200) {
+          try {
+            final screenshotsData = json.decode(screenshotsRes.body);
+            final List results = screenshotsData['results'] ?? [];
+            screenshots = results.map((e) => e['image'].toString()).toList();
+          } catch (e) {
+            // Fallback if parsing fails
+          }
+        }
+
+        detailData['screenshots_list'] = screenshots;
+        return GameDetail.fromJson(detailData);
+      } else {
+        throw Exception('Failed to load game detail');
+      }
+    } catch (e) {
+      throw Exception('Error loading game detail: $e');
     }
   }
 }

@@ -46,7 +46,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
         Future.delayed(const Duration(seconds: 1), () {
           if (mounted) {
-            Navigator.pop(context);
+            if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            }
           }
         });
       }
@@ -62,10 +64,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(30, 30, 30, 1),
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
+        leading: Navigator.canPop(context)
+            ? IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context),
+              )
+            : null,
         title: const Text(
           'Login',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
@@ -330,81 +334,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       .fadeIn(duration: 800.ms, delay: 400.ms)
                       .slideY(begin: 0.2, duration: 800.ms, delay: 400.ms)
                       .scale(delay: 400.ms),
-                  const SizedBox(height: 20),
-
-                  // Divider with text
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: const Color.fromRGBO(100, 100, 100, 1),
-                          thickness: 1,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Text(
-                          'Or continue with',
-                          style: TextStyle(
-                            color: Color.fromRGBO(150, 150, 150, 1),
-                            fontSize: 12,
-                          ),
-                        ).animate().fadeIn(duration: 800.ms, delay: 450.ms),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          color: const Color.fromRGBO(100, 100, 100, 1),
-                          thickness: 1,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Google Login Button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: OutlinedButton.icon(
-                      onPressed: authState.isLoading
-                          ? null
-                          : () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Google login coming soon!',
-                                  ),
-                                ),
-                              );
-                            },
-                      style: OutlinedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        side: const BorderSide(
-                          color: Color.fromRGBO(100, 100, 100, 1),
-                          width: 1,
-                        ),
-                      ),
-                      icon: const Icon(
-                        Icons.g_translate,
-                        color: Colors.white,
-                      ),
-                      label: const Text(
-                        'Login with Google',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ).animate().fadeIn(duration: 800.ms, delay: 500.ms).slideY(
-                        begin: 0.2,
-                        duration: 800.ms,
-                        delay: 500.ms,
-                      ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
 
                   // Sign Up Link
                   Center(

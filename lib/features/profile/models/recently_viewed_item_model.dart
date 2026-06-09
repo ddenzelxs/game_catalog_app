@@ -1,9 +1,9 @@
 import 'package:hive/hive.dart';
 
-part 'cart_item_model.g.dart';
+part 'recently_viewed_item_model.g.dart';
 
-@HiveType(typeId: 0)
-class CartItem extends HiveObject {
+@HiveType(typeId: 4)
+class RecentlyViewedItem extends HiveObject {
   @HiveField(0)
   late int gameId;
 
@@ -14,24 +14,16 @@ class CartItem extends HiveObject {
   late String backgroundImage;
 
   @HiveField(3)
-  late double price;
-
-  @HiveField(4)
   late double rating;
 
-  @HiveField(5)
-  late DateTime addedAt;
+  @HiveField(4)
+  late DateTime viewedAt;
 
-  @HiveField(6)
-  String? status;
-
-  CartItem({
+  RecentlyViewedItem({
     required this.gameId,
     required this.gameName,
     required this.backgroundImage,
-    required this.price,
     required this.rating,
-    required this.addedAt,
-    this.status = 'Plan to Play',
+    required this.viewedAt,
   });
 }

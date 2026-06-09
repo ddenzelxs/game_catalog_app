@@ -55,6 +55,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
 
+  # Platform Icons
+  font_awesome_flutter: ^10.8.0
+
   # Database
   flutter_dotenv: ^6.0.1
   supabase_flutter: ^2.5.6

@@ -1,36 +1,34 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cart_item_model.dart';
+part of 'recently_viewed_item_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class CartItemAdapter extends TypeAdapter<CartItem> {
+class RecentlyViewedItemAdapter extends TypeAdapter<RecentlyViewedItem> {
   @override
-  final int typeId = 0;
+  final int typeId = 4;
 
   @override
-  CartItem read(BinaryReader reader) {
+  RecentlyViewedItem read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return CartItem(
+    return RecentlyViewedItem(
       gameId: fields[0] as int,
       gameName: fields[1] as String,
       backgroundImage: fields[2] as String,
-      price: fields[3] as double,
-      rating: fields[4] as double,
-      addedAt: fields[5] as DateTime,
-      status: fields[6] as String?,
+      rating: fields[3] as double,
+      viewedAt: fields[4] as DateTime,
     );
   }
 
   @override
-  void write(BinaryWriter writer, CartItem obj) {
+  void write(BinaryWriter writer, RecentlyViewedItem obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.gameId)
       ..writeByte(1)
@@ -38,13 +36,9 @@ class CartItemAdapter extends TypeAdapter<CartItem> {
       ..writeByte(2)
       ..write(obj.backgroundImage)
       ..writeByte(3)
-      ..write(obj.price)
-      ..writeByte(4)
       ..write(obj.rating)
-      ..writeByte(5)
-      ..write(obj.addedAt)
-      ..writeByte(6)
-      ..write(obj.status);
+      ..writeByte(4)
+      ..write(obj.viewedAt);
   }
 
   @override
@@ -53,7 +47,7 @@ class CartItemAdapter extends TypeAdapter<CartItem> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CartItemAdapter &&
+      other is RecentlyViewedItemAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

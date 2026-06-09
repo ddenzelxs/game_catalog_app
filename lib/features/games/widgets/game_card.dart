@@ -2,47 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import '../models/game_model.dart';
-import '../models/platform_element_model.dart';
 import '../../../core/utils/image_utils.dart';
 import '../pages/detail_screen.dart';
 import '../../wishlist/models/wishlist_item_model.dart';
 import '../../wishlist/services/wishlist_service.dart';
 import '../../../core/services/hive_service.dart';
+import '../../../shared/widgets/platform_icons.dart';
 
 class GameCard extends StatelessWidget {
   final Game game;
 
   const GameCard({super.key, required this.game});
 
-  Widget _buildPlatformIcons(List<PlatformElement> platforms) {
-    bool hasPC = false;
-    bool hasConsole = false;
-
-    for (var p in platforms) {
-      final slug = p.platform.slug.toLowerCase();
-      if (slug.contains('pc')) {
-        hasPC = true;
-      } else if (slug.contains('playstation') ||
-          slug.contains('xbox') ||
-          slug.contains('nintendo') ||
-          slug.contains('switch')) {
-        hasConsole = true;
-      }
-    }
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (hasPC)
-          const Padding(
-            padding: EdgeInsets.only(right: 8),
-            child: Icon(Icons.monitor, color: Color(0xFF9CA3AF), size: 16),
-          ),
-        if (hasConsole)
-          const Icon(Icons.sports_esports, color: Color(0xFF9CA3AF), size: 16),
-      ],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -201,7 +172,9 @@ class GameCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      _buildPlatformIcons(game.platforms),
+                      PlatformIcons(
+                        slugs: game.platforms.map((p) => p.platform.slug).toList(),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 8),

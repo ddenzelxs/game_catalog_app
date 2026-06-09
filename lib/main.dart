@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'core/theme/app_theme.dart';
-import 'main_screen.dart';
+import 'features/auth/pages/auth_gate.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'core/services/hive_service.dart';
+import 'core/services/sync_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +24,14 @@ void main() async {
 
   final supabase = Supabase.instance.client;
 
+  // Initialize Cloud Synchronization Listener
+  SyncService().initAuthListener();
+
+  // Trigger sync at startup if user is logged in
+  if (supabase.auth.currentUser != null) {
+    await SyncService.fetchAndSyncFromCloud();
+  }
+
   final response = await supabase.rpc('get_tables');
 
   print(response);
@@ -39,8 +48,7 @@ class GameCatalogApp extends StatelessWidget {
       title: 'ArcadiaX',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: const MainScreen(),
-      
+      home: const AuthGate(),
     );
   }
 }

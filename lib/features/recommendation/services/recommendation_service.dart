@@ -20,7 +20,7 @@ class RecommendationService {
     );
 
     const systemInstruction =
-        "You are a professional video game recommendation AI. Recommend exactly 3 video games based on the user's prompt.\n\n"
+        "You are a professional video game recommendation AI. Recommend exactly 5 video games based on the user's prompt.\n\n"
         "Return the output STRICTLY as a valid JSON array of objects, with NO markdown formatting, NO backticks (```json), and NO extra text.\n"
         "Each object must have exactly two fields:\n"
         "1. \"title\": the exact title of the game.\n"
@@ -70,8 +70,15 @@ class RecommendationService {
 
       final games = await _apiService.fetchGames(page: 1, search: title);
       if (games.isNotEmpty) {
+        final game = games.first;
         results.add(RecommendationResult(
-          game: games.first,
+          gameId: game.id,
+          gameName: game.name,
+          backgroundImage: game.backgroundImage,
+          rating: game.rating,
+          metacritic: game.metacritic,
+          platforms: game.platforms.map((p) => p.platform.slug).toList(),
+          genres: game.genres.map((g) => g.name).toList(),
           reason: reason,
         ));
       }
